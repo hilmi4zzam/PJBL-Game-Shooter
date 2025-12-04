@@ -1,9 +1,7 @@
-/// <reference path="./phaser.d.ts" />
-
 const config = {
   type: Phaser.AUTO,
-  width: 1200, // Dikecilkan dari 1600
-  height: 800, // Dikecilkan dari 1000
+  width: 1200,
+  height: 800,
   backgroundColor: '#2d2d2d',
   scene: {
     preload: preload,
@@ -12,16 +10,15 @@ const config = {
   },
 };
 
-// Buat instance game - INI PENTING!
 const game = new Phaser.Game(config);
 
-//buat variable global
-let pelurus = []; // Array untuk menyimpan banyak peluru
+
+let pelurus = []; 
 let pistol, musuh;
 let keyW, keyA, keyS, keyD;
 let keySpace;
 let cursors;
-let canShoot = true; // Flag untuk cooldown
+let canShoot = true; 
 let enemySpeed = 3;
 let gameOver = false;
 let gameOverText;
@@ -29,13 +26,11 @@ let restartKey;
 let score = 0;
 let scoreText;
 
-//masukkan gambar ke canvas
-/** @this {Phaser.Scene} */
+
 function preload() {
-  // Ensure loader resolves paths relative to the HTML page folder
+  
   this.load.setPath('./');
 
-  // Basic diagnostics for asset loading
   this.load.on('loaderror', (file) => {
     console.error('Phaser load error:', file);
   });
@@ -48,7 +43,7 @@ function preload() {
   this.load.image('musuh', './kepalaHilmi.png');
 }
 
-/** @this {Phaser.Scene} */
+
 function create() {
   pistol = this.add.image(100, 400, 'pistol');
   pistol.setScale(0.6);
@@ -81,7 +76,7 @@ function create() {
   respawnEnemy(this);
 }
 
-/** @this {Phaser.Scene} */
+
 function update() {
   if (gameOver) {
     if (Phaser.Input.Keyboard.JustDown(restartKey)) {
@@ -108,23 +103,23 @@ function update() {
     pistol.y += 10;
   }
 
-  // Tembak peluru saat SPACE ditekan
+
   if (keySpace.isDown && canShoot) {
-    let peluru = this.add.image(pistol.x + 40, pistol.y, 'peluru'); // Spawn sedikit di depan pistol
+    let peluru = this.add.image(pistol.x + 40, pistol.y, 'peluru');
     peluru.setScale(0.2);
 
-    pelurus.push(peluru); // Tambahkan ke array
-    canShoot = false; // Cooldown aktif
+    pelurus.push(peluru); 
+    canShoot = false; 
     setTimeout(() => {
       canShoot = true;
-    }, 120); // Cooldown 120ms
+    }, 120);
   }
 
   // Gerakkan SEMUA peluru
   for (let i = pelurus.length - 1; i >= 0; i--) {
-    pelurus[i].x += 18; // Gerak ke kanan
+    pelurus[i].x += 18; 
 
-    // Cek collision dengan musuh
+    
     if (checkCollision(pelurus[i], musuh)) {
       pelurus[i].destroy();
       pelurus.splice(i, 1);
@@ -134,7 +129,6 @@ function update() {
       continue;
     }
 
-    // Hapus peluru jika keluar canvas
     if (pelurus[i].x > 1250) {
       pelurus[i].destroy();
       pelurus.splice(i, 1);
@@ -147,7 +141,7 @@ function update() {
     triggerGameOver();
   }
 
-  // Batasi agar pistol tidak keluar canvas
+  
   pistol.x = Phaser.Math.Clamp(pistol.x, 80, 1120);
   pistol.y = Phaser.Math.Clamp(pistol.y, 60, 740);
 }
@@ -199,11 +193,9 @@ function restartGame(scene) {
   if (scoreText) scoreText.setText('Score: ' + score);
 }
 
-// Fungsi untuk cek collision antara 2 object
 function checkCollision(obj1, obj2) {
-  // Hitung jarak antara 2 object
+ 
   let distance = Phaser.Math.Distance.Between(obj1.x, obj1.y, obj2.x, obj2.y);
 
-  // Jika jarak < 50 pixel, dianggap collision
   return distance < 50;
 }
