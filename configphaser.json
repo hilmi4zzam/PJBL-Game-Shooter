@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "allowJs": true,
+    "checkJs": true,
+    "lib": ["ES6", "DOM"],
+    "module": "ES6",
+    "baseUrl": ".",
+    "typeRoots": ["./", "../node_modules/@types"]
+  },
+  "include": ["**/*.js", "**/*.ts"],
+  "files": ["phaser.d.ts"]
+}

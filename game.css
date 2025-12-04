@@ -1,0 +1,23 @@
+/* Reset margin dan padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw; /* Full width viewport */
+  height: 100vh; /* Full height viewport */
+  display: flex; /* Flexbox */
+  justify-content: center; /* Center horizontal */
+  align-items: center; /* Center vertikal */
+  background-color: #1a1a1a; /* Background gelap */
+  overflow: hidden; /* Hilangkan scrollbar */
+}
+
+/* ini canvasnya ngambil dari js, karena aku buat canvas lewat pasher yaitu librarynya js */
+canvas {
+  display: block; /* Hilangkan spacing bawah canvas */
+  border-radius: 8px; /* Sudut melengkung */
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7); /* Bayangan */
+}
